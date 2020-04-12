@@ -14,7 +14,7 @@ export class TodoManager extends ComponentBase<any, State>
 {
     public constructor(props: any)
     {
-        super(props, { items: [], text: "" });
+        super(props, { items: [], text: "gg" });
         // this.state = { items: [], text: '' };
         
         this.handleChange = this.handleChange.bind(this);
@@ -61,7 +61,7 @@ export class TodoManager extends ComponentBase<any, State>
         };
         this.setState(state => ({
             items: state.items.concat(newItem),
-            text: ""
+            text: "hh"
         }));
     }
 }

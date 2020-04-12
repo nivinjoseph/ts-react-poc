@@ -1,13 +1,14 @@
+/* eslint-disable */
 const path = require("path");
 const autoprefixer = require("autoprefixer");
-const htmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const { ConfigurationManager } = require("@nivinjoseph/n-config");
-// const webpack = require("webpack");
+const webpack = require("webpack");
 
 
 const env = ConfigurationManager.getConfig("env");
@@ -25,7 +26,7 @@ const moduleRules = [
         }, {
             loader: "postcss-loader", // postcss
             options: {
-                plugins: () => [
+                plugins: () => ([
                     require("postcss-flexbugs-fixes"),
                     autoprefixer({
                         // browsers: [
@@ -34,7 +35,7 @@ const moduleRules = [
                         // ],
                         flexbox: "no-2009"
                     })
-                ]
+                ])
             }
         }, {
             loader: "sass-loader" // compiles Sass to CSS -> depends on node-sass
@@ -79,31 +80,48 @@ const moduleRules = [
             }
         ]
     },
+    // {
+    //     test: /\.ts(x?)$/,
+    //     exclude: /node_modules/,
+    //     use: [
+    //         {
+    //             loader: 'babel-loader',
+    //             options: {
+    //                 presets: ['@babel/preset-env', "@babel/preset-react"],
+    //                 plugins: isDev ? ["react-hot-loader/babel"] : []
+    //                 // cacheDirectory: true,
+    //                 // cacheCompression: false
+    //             }
+    //         },
+    //         {
+    //             loader: "ts-loader"
+    //         }
+    //     ]
+    // },
     {
-        test: /\.ts(x?)$/,
+        test: /\.js(x?)$/,
         exclude: /node_modules/,
         use: [
             {
                 loader: 'babel-loader',
                 options: {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
-                    plugins: isDev ? ["react-hot-loader/babel"] : []
+                    plugins: isDev ? ["react-hot-loader/babel"] : [],
+                    cacheDirectory: true,
+                    cacheCompression: false
                 }
-            },
-            {
-                loader: "ts-loader"
             }
         ]
     },
     {
-        test: /\.taskworker\.ts$/,
+        test: /\.taskworker\.js$/,
         use: [
             {
                 loader: "worker-loader"
-            },
-            {
-                loader: "ts-loader"
             }
+            // {
+            //     loader: "ts-loader"
+            // }
         ]
     },
     {
@@ -136,11 +154,18 @@ const moduleRules = [
 
 const plugins = [
     new CleanWebpackPlugin(),
-    new htmlWebpackPlugin({
+    new HtmlWebpackPlugin({
         template: "src/index.html",
         filename: "index.html",
         favicon: "src/images/favicon.ico",
         hash: true
+    }),
+    new webpack.DefinePlugin({
+        APP_CONFIG: JSON.stringify({
+            foo: "fizz",
+            bar: 1,
+            baz: true
+        })
     })
 ];
 
@@ -208,7 +233,8 @@ if (isDev)
 module.exports = {
     mode: isDev ? "development" : "production",
     target: "web",
-    entry: ["./src/index.tsx"],
+    // entry: ["./src/index.tsx"],
+    entry: ["./src/index.js"],
     output: {
         filename: "client.bundle.js",
         chunkFilename: "[name].bundle.js",
@@ -241,7 +267,7 @@ module.exports = {
     },
     plugins: plugins,
     resolve: {
-        extensions: ['.wasm', '.mjs', '.js', '.json', ".ts", ".tsx"],
+        // extensions: ['.wasm', '.mjs', '.js', '.json', ".ts", ".tsx"],
         alias: {
             // https://feathericons.com/
             feather: path.resolve(__dirname, "node_modules/feather-icons/dist/feather-sprite.svg")

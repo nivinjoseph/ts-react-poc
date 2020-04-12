@@ -13,6 +13,6 @@ export class Hello extends ComponentBase<Props>
 {
     public render(): JSX.Element
     {
-        return <h1>Hello frommmm {this.props.compiler} and {this.props.framework}!</h1>;
+        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }

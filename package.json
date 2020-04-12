@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-compile": "tsc -p .",
+    "ts-compile-watch": "npm run ts-compile -- -w",
     "es-lint": "eslint -c .eslintrc.json \"*/**/*.{ts,tsx}\"",
     "ts-build": "npm run ts-compile && npm run es-lint",
     "webpack-build": "webpack",
-    "build": "env=dev npm run webpack-build",
-    "dev": "env=dev webpack-dev-server"
+    "build": "npm run ts-build && env=dev npm run webpack-build",
+    "webpack-dev-server": "env=dev webpack-dev-server",
+    "predev": "npm run ts-build",
+    "dev": "concurrently \"npm:ts-compile-watch\" \"npm:webpack-dev-server\"",
+    "clean-src": "find ./src -type f -name \"*.js\" -not -path \"*/3rd-party/*\" -delete -o -name \"*.map\" -not -path \"*/3rd-party/*\" -delete && rm -f tsconfig.tsbuildinfo"
   },
   "repository": {
     "type": "git",
@@ -38,6 +42,7 @@
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^3.1.0",
+    "concurrently": "^5.1.0",
     "css-loader": "^3.5.2",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
@@ -66,7 +71,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
-    "@nivinjoseph/n-config": "^1.0.25",
+    "@nivinjoseph/n-config": "^1.0.27",
     "@nivinjoseph/n-defensive": "^1.0.32",
     "@nivinjoseph/n-ext": "^1.1.15",
     "bulma": "^0.8.2",
