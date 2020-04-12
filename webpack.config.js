@@ -87,7 +87,7 @@ const moduleRules = [
                 loader: 'babel-loader',
                 options: {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
-                    plugins: ["react-hot-loader/babel"]
+                    plugins: isDev ? ["react-hot-loader/babel"] : []
                 }
             },
             {
@@ -199,7 +199,7 @@ if (isDev)
 {
     devServer = {
         contentBase: path.join(__dirname, "src/dist"),
-        compress: true,
+        compress: false,
         port: 9000,
         hot: true
     };

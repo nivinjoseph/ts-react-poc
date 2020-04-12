@@ -4,7 +4,7 @@ import { hot } from "react-hot-loader/root";
 import { TodoManager } from "./components/todo-manager";
 
 
-function App()
+function App(): JSX.Element
 {
     return (
         <div>

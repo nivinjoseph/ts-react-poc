@@ -21,7 +21,7 @@ export class TodoManager extends ComponentBase<any, State>
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public render()
+    public render(): JSX.Element 
     {
         return (
             <div>
@@ -44,18 +44,17 @@ export class TodoManager extends ComponentBase<any, State>
         );
     }
 
-    public handleChange(e: React.ChangeEvent<HTMLInputElement>)
+    public handleChange(e: React.ChangeEvent<HTMLInputElement>): void
     {
         this.setState({ text: e.target.value });
     }
 
-    public handleSubmit(e: React.FormEvent<HTMLFormElement>)
+    public handleSubmit(e: React.FormEvent<HTMLFormElement>): void
     {
         e.preventDefault();
-        if (this.state.text.length === 0)
-        {
+        if (this.state.text.length === 0) 
             return;
-        }
+        
         const newItem = {
             text: this.state.text,
             id: Date.now()
