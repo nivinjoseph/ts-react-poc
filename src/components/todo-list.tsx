@@ -40,7 +40,7 @@ export class TodoList extends ComponentBase<any, State>
             <ul>
                 {this.state.items.map(item => (
                     <li key={item.id}>
-                        <span>{item.text}</span><span>=</span>
+                        <span>{item.text}</span><span>-----</span>
                         <button onClick={() => this.handleDelete(item.id)}>
                             Delete
                         </button>

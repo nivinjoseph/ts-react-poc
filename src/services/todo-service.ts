@@ -34,7 +34,7 @@ export class TodoService
         given(text, "text").ensureHasValue().ensureIsString();
         text = text.trim();
 
-        await Delay.seconds(1); // simulating delay
+        await Delay.milliseconds(100); // simulating delay
 
         const id = this._todosSubject.value.length === 0
             ? 1 : this._todosSubject.value.orderByDesc(t => t.id)[0].id + 1;
@@ -46,7 +46,7 @@ export class TodoService
     {
         given(id, "id").ensureHasValue().ensureIsNumber();
 
-        await Delay.seconds(1); // simulating delay
+        await Delay.milliseconds(100); // simulating delay
 
         const todo = this._todosSubject.value.find(t => t.id === id);
         if (!todo)
