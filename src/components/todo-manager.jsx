@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
 const todo_list_1 = require("./todo-list");
+const todo_input_1 = require("./todo-input");
 class TodoManager extends component_base_1.ComponentBase {
     constructor(props) {
         super(props);
@@ -19,35 +20,12 @@ class TodoManager extends component_base_1.ComponentBase {
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
     render() {
+        console.log("Render in " + this.getTypeName());
         return (<div>
                 <h3>TODO</h3>
-                <todo_list_1.TodoList items={this.state.items}/>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="new-todo">
-                        What needs to be done?
-                    </label>
-                    <input id="new-todo" onChange={this.handleChange} value={this.state.text}/>
-                    <button>
-                        Add #{this.state.items.length + 1}
-                    </button>
-                </form>
+                <todo_list_1.TodoList />
+                <todo_input_1.TodoInput />
             </div>);
-    }
-    handleChange(e) {
-        this.setState({ text: e.target.value });
-    }
-    handleSubmit(e) {
-        e.preventDefault();
-        if (this.state.text.length === 0)
-            return;
-        const newItem = {
-            text: this.state.text,
-            id: Date.now()
-        };
-        this.setState(state => ({
-            items: state.items.concat(newItem),
-            text: "hh"
-        }));
     }
 }
 exports.TodoManager = TodoManager;

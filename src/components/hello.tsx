@@ -7,12 +7,13 @@ type Props = {
     framework: string;
 };
 
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
+
 export class Hello extends ComponentBase<Props>
 {
     public render(): JSX.Element
     {
+        console.log("Render in " + (this as Object).getTypeName());
+        
         return <h1>Hello from the {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }

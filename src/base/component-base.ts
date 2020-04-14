@@ -1,9 +1,14 @@
 import * as React from "react";
 import { Utilities } from "./utilities";
+import { given } from "@nivinjoseph/n-defensive";
 
 
 export abstract class ComponentBase<P extends object = {}, S extends object = {}, SS = any> extends React.Component<P, S, SS>
 {
+    private _afterMountFunc: (() => any) | null = null;
+    private _beforeUnmountFunc: (() => any) | null = null;
+    
+    
     protected constructor(props: P)
     {
         super(props);
@@ -15,5 +20,30 @@ export abstract class ComponentBase<P extends object = {}, S extends object = {}
         });
     }
     
+    
     public abstract render(): JSX.Element | null;
+    
+    public componentDidMount(): any
+    {
+        if (this._afterMountFunc)
+            this._afterMountFunc();
+    }
+    
+    public componentWillUnmount(): any
+    {
+        if (this._beforeUnmountFunc)
+            this._beforeUnmountFunc();
+    }
+    
+    protected executeAfterMount(func: () => any): void
+    {
+        given(func, "func").ensureHasValue().ensureIsFunction();
+        this._afterMountFunc = func;
+    }
+    
+    protected executeBeforeUnmount(func: () => any): void
+    {
+        given(func, "func").ensureHasValue().ensureIsFunction();
+        this._beforeUnmountFunc = func;
+    }
 }

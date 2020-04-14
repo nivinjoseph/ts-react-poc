@@ -13,6 +13,7 @@ const component_base_1 = require("../base/component-base");
 // State is never set so we use the '{}' type.
 class Hello extends component_base_1.ComponentBase {
     render() {
+        console.log("Render in " + this.getTypeName());
         return <h1>Hello from the {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }

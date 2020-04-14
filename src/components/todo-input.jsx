@@ -19,33 +19,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
 const todo_service_1 = require("../services/todo-service");
-class TodoList extends component_base_1.ComponentBase {
+class TodoInput extends component_base_1.ComponentBase {
     constructor(props) {
         super(props);
         this.state = {
-            items: []
+            todos: [],
+            todoText: ""
         };
         this.executeAfterMount(() => {
-            const subscription = todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }));
+            const subscription = todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ todos }));
             this.executeBeforeUnmount(() => subscription.unsubscribe());
         });
     }
-    handleDelete(id) {
+    handleChange(e) {
+        this.setState({ todoText: e.target.value });
+    }
+    handleSubmit(e) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield todo_service_1.TodoService.instance.deleteTodo(id);
+            e.preventDefault();
+            if (this.state.todoText.length === 0)
+                return;
+            yield todo_service_1.TodoService.instance.createTodo(this.state.todoText);
+            this.setState({ todoText: "" });
         });
     }
     render() {
         console.log("Render in " + this.getTypeName());
-        return (<ul>
-                {this.state.items.map(item => (<li key={item.id}>
-                        <span>{item.text}</span>
-                        <button onClick={() => this.handleDelete(item.id)}>
-                            Delete
-                        </button>
-                    </li>))}
-            </ul>);
+        return (<div>
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="new-todo">
+                        What needs to be done?
+                    </label>
+                    <input id="new-todo" onChange={this.handleChange} value={this.state.todoText}/>
+                    <button>
+                        Add #{this.state.todos.length + 1}
+                    </button>
+                </form>
+            </div>);
     }
 }
-exports.TodoList = TodoList;
-//# sourceMappingURL=todo-list.jsx.map
+exports.TodoInput = TodoInput;
+//# sourceMappingURL=todo-input.jsx.map
