@@ -39,7 +39,7 @@ class TodoList extends component_base_1.ComponentBase {
         console.log("Render in " + this.getTypeName());
         return (<ul>
                 {this.state.items.map(item => (<li key={item.id}>
-                        <span>{item.text}</span>
+                        <span>{item.text}</span><span>=</span>
                         <button onClick={() => this.handleDelete(item.id)}>
                             Delete
                         </button>

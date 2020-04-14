@@ -9,8 +9,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
 class Hello extends component_base_1.ComponentBase {
     render() {
         console.log("Render in " + this.getTypeName());

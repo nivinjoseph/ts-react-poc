@@ -12,13 +12,6 @@ const component_base_1 = require("../base/component-base");
 const todo_list_1 = require("./todo-list");
 const todo_input_1 = require("./todo-input");
 class TodoManager extends component_base_1.ComponentBase {
-    constructor(props) {
-        super(props);
-        this.state = { items: [], text: "gg" };
-        // this.state = { items: [], text: '' };
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-    }
     render() {
         console.log("Render in " + this.getTypeName());
         return (<div>
