@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ComponentBase } from "./component-base";
+import { ComponentBase } from "../base/component-base";
 
 
 type Props = {
@@ -13,6 +13,6 @@ export class Hello extends ComponentBase<Props>
 {
     public render(): JSX.Element
     {
-        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+        return <h1>Hello from the {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }

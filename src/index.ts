@@ -7,4 +7,4 @@ import App from "./app";
 
 
  
-ReactDOM.render(<App />, document.getElementById("example"));
+ReactDOM.render(React.createElement(App), document.getElementById("root"));

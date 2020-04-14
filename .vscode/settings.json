@@ -12,7 +12,7 @@
         "**/*.js": {
             "when": "$(basename).ts"
         },
-        "**/*?.js": {
+        "**/*.jsx": {
             "when": "$(basename).tsx"
         },
         "**/*.map": {

@@ -1,6 +1,6 @@
 import { Todo } from "../models/todo";
 import * as React from "react";
-import { ComponentBase } from "./component-base";
+import { ComponentBase } from "../base/component-base";
 import { TodoList } from "./todo-list";
 
 
@@ -14,14 +14,16 @@ export class TodoManager extends ComponentBase<any, State>
 {
     public constructor(props: any)
     {
-        super(props, { items: [], text: "gg" });
+        super(props);
+        
+        this.state = { items: [], text: "gg" };
         // this.state = { items: [], text: '' };
         
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public render(): JSX.Element 
+    public render(): JSX.Element
     {
         return (
             <div>

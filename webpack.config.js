@@ -80,24 +80,6 @@ const moduleRules = [
             }
         ]
     },
-    // {
-    //     test: /\.ts(x?)$/,
-    //     exclude: /node_modules/,
-    //     use: [
-    //         {
-    //             loader: 'babel-loader',
-    //             options: {
-    //                 presets: ['@babel/preset-env', "@babel/preset-react"],
-    //                 plugins: isDev ? ["react-hot-loader/babel"] : []
-    //                 // cacheDirectory: true,
-    //                 // cacheCompression: false
-    //             }
-    //         },
-    //         {
-    //             loader: "ts-loader"
-    //         }
-    //     ]
-    // },
     {
         test: /\.js(x?)$/,
         exclude: /node_modules/,
@@ -106,7 +88,7 @@ const moduleRules = [
                 loader: 'babel-loader',
                 options: {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
-                    plugins: isDev ? ["react-hot-loader/babel"] : [],
+                    plugins: isDev ? ["react-hot-loader/babel", "@babel/plugin-transform-react-jsx-source"] : [],
                     cacheDirectory: true,
                     cacheCompression: false
                 }
@@ -115,14 +97,7 @@ const moduleRules = [
     },
     {
         test: /\.taskworker\.js$/,
-        use: [
-            {
-                loader: "worker-loader"
-            }
-            // {
-            //     loader: "ts-loader"
-            // }
-        ]
+        loader: "worker-loader"
     },
     {
         test: /\.html$/,
@@ -170,45 +145,13 @@ const plugins = [
 ];
 
 if (isDev) {
-    moduleRules.push(
-        {
-            test: /\.js$/,
-            loader: "source-map-loader",
-            enforce: "pre"
-        },
-        // {
-        //     test: /\.js$/,
-        //     exclude: /node_modules/,
-        //     use: {
-        //         loader: 'babel-loader',
-        //         options: {
-        //             presets: ['@babel/preset-env', "@babel/preset-react"],
-        //             plugins: ["react-hot-loader/babel"]
-        //         }
-        //     }
-        // }
-    );
+    moduleRules.push({
+        test: /\.js(x?)$/,
+        loader: "source-map-loader",
+        enforce: "pre"
+    });
 }
 else {
-    // moduleRules.push({
-    //     test: /\.js$/,
-    //     use: {
-    //         loader: "babel-loader",
-    //         options: {
-    //             presets: [["@babel/preset-env", {
-    //                 debug: false,
-    //                 targets: {
-    //                     // browsers: ["> 1%", "Chrome >= 41"],
-    //                     chrome: "41" // this is what googles web crawler uses
-    //                 },
-    //                 useBuiltIns: "entry",
-    //                 forceAllTransforms: true,
-    //                 modules: "commonjs"
-    //             }]]
-    //         }
-    //     }
-    // });
-
     plugins.push(...[
         new MiniCssExtractPlugin({
             filename: "client.bundle.css"
@@ -233,7 +176,6 @@ if (isDev)
 module.exports = {
     mode: isDev ? "development" : "production",
     target: "web",
-    // entry: ["./src/index.tsx"],
     entry: ["./src/index.js"],
     output: {
         filename: "client.bundle.js",
@@ -268,6 +210,7 @@ module.exports = {
     plugins: plugins,
     resolve: {
         // extensions: ['.wasm', '.mjs', '.js', '.json', ".ts", ".tsx"],
+        extensions: ['.wasm', '.mjs', '.js', '.json', ".jsx"],
         alias: {
             // https://feathericons.com/
             feather: path.resolve(__dirname, "node_modules/feather-icons/dist/feather-sprite.svg")

@@ -42,11 +42,12 @@
             "error",
             "always"
         ],
-        "curly": [
-            "error",
-            "multi",
-            "consistent"
-        ],
+        // "curly": [
+        //     "error",
+        //     "multi",
+        //     "consistent"
+        // ],
+        "curly": "off",
         "brace-style": [
             "error",
             "allman",
@@ -54,7 +55,32 @@
                 "allowSingleLine": true
             }
         ],
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-types": [
+            "error",
+            {
+                "types": {
+                    // add a custom message, AND tell the plugin how to fix it
+                    "String": {
+                        "message": "Use string instead",
+                        "fixWith": "string"
+                    },
+                    "Boolean": {
+                        "message": "Use boolean instead",
+                        "fixWith": "boolean"
+                    },
+                    "Number": {
+                        "message": "Use number instead",
+                        "fixWith": "number"
+                    },
+                    "Symbol": {
+                        "message": "Use symbol instead",
+                        "fixWith": "symbol"
+                    }
+                },
+                "extendDefaults": false
+            }
+        ]
     },
     "settings": {
         "react": {
