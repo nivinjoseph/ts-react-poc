@@ -6,7 +6,7 @@ export class Utilities
 {    
     private static internal = new Set(["isReactComponent", "setState", "forceUpdate", "isMounted", "replaceState", "render",
         "hotComponentRender", "hotComponentUpdate", "componentDidMount", "componentDidUpdate", "componentWillUnmount",
-        "props", "context", "refs", "updater", "state"]);
+        "props", "context", "refs", "updater", "state", "executeAfterMount", "executeBeforeUnmount"]);
 
     private static forbidden = new Set(["do", "if", "for", "let", "new", "try", "var", "case", "else", "with", "await", "break",
         "catch", "class", "const", "super", "throw", "while", "yield", "delete", "export", "import", "return",

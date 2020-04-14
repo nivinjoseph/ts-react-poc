@@ -21,7 +21,7 @@ export abstract class ComponentBase<P extends object = {}, S extends object = {}
     }
     
     
-    public abstract render(): JSX.Element | null;
+    public abstract render(): React.ReactNode | null;
     
     public componentDidMount(): any
     {

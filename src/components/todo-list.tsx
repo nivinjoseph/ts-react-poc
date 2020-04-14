@@ -21,8 +21,11 @@ export class TodoList extends ComponentBase<any, State>
 
         this.executeAfterMount(() =>
         {
-            const subscription = TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }));
-            this.executeBeforeUnmount(() => subscription.unsubscribe());
+            const subs = [
+                TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }))
+            ];
+            
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
         });
     }
     
@@ -32,7 +35,7 @@ export class TodoList extends ComponentBase<any, State>
         await TodoService.instance.deleteTodo(id);
     }
     
-    public render(): JSX.Element | null
+    public render(): JSX.Element
     {
         console.log("Render in " + (this as Object).getTypeName());
         

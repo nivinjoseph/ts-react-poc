@@ -26,8 +26,10 @@ class TodoList extends component_base_1.ComponentBase {
             items: []
         };
         this.executeAfterMount(() => {
-            const subscription = todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }));
-            this.executeBeforeUnmount(() => subscription.unsubscribe());
+            const subs = [
+                todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }))
+            ];
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
         });
     }
     handleDelete(id) {

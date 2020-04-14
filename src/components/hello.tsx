@@ -14,6 +14,6 @@ export class Hello extends ComponentBase<Props>
     {
         console.log("Render in " + (this as Object).getTypeName());
         
-        return <h1>Hello from the {this.props.compiler} and {this.props.framework}!</h1>;
+        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }

@@ -22,8 +22,11 @@ export class TodoInput extends ComponentBase<any, State>
         
         this.executeAfterMount(() =>
         {
-            const subscription = TodoService.instance.todos.subscribe((todos) => this.setState({ todos }));
-            this.executeBeforeUnmount(() => subscription.unsubscribe());
+            const subs = [
+                TodoService.instance.todos.subscribe((todos) => this.setState({ todos }))
+            ];
+            
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
         });
     }
     
