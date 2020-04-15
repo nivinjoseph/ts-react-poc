@@ -18,7 +18,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
-const todo_service_1 = require("../services/todo-service");
+const provider_1 = require("../provider");
 class TodoInput extends component_base_1.ComponentBase {
     constructor(props) {
         super(props);
@@ -26,12 +26,8 @@ class TodoInput extends component_base_1.ComponentBase {
             todos: [],
             todoText: ""
         };
-        this.executeAfterMount(() => {
-            const subs = [
-                todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ todos }))
-            ];
-            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
-        });
+        this._todoService = provider_1.Provider.global.resolve("TodoService");
+        this.initialize();
     }
     handleChange(e) {
         this.setState({ todoText: e.target.value });
@@ -41,12 +37,11 @@ class TodoInput extends component_base_1.ComponentBase {
             e.preventDefault();
             if (this.state.todoText.length === 0)
                 return;
-            yield todo_service_1.TodoService.instance.createTodo(this.state.todoText);
+            yield this._todoService.createTodo(this.state.todoText);
             this.setState({ todoText: "" });
         });
     }
     render() {
-        console.log("Render in " + this.getTypeName());
         return (<div>
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="new-todo">
@@ -58,6 +53,14 @@ class TodoInput extends component_base_1.ComponentBase {
                     </button>
                 </form>
             </div>);
+    }
+    initialize() {
+        this.executeAfterMount(() => {
+            const subs = [
+                this._todoService.todos.subscribe((todos) => this.setState({ todos }))
+            ];
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
+        });
     }
 }
 exports.TodoInput = TodoInput;

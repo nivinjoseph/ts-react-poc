@@ -18,27 +18,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
-const todo_service_1 = require("../services/todo-service");
+const provider_1 = require("../provider");
 class TodoList extends component_base_1.ComponentBase {
     constructor(props) {
         super(props);
         this.state = {
             items: []
         };
-        this.executeAfterMount(() => {
-            const subs = [
-                todo_service_1.TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }))
-            ];
-            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
-        });
+        this._todoService = provider_1.Provider.global.resolve("TodoService");
+        this.initialize();
     }
     handleDelete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield todo_service_1.TodoService.instance.deleteTodo(id);
+            yield this._todoService.deleteTodo(id);
         });
     }
     render() {
-        console.log("Render in " + this.getTypeName());
         return (<ul>
                 {this.state.items.map(item => (<li key={item.id}>
                         <span>{item.text}</span><span>-----</span>
@@ -47,6 +42,14 @@ class TodoList extends component_base_1.ComponentBase {
                         </button>
                     </li>))}
             </ul>);
+    }
+    initialize() {
+        this.executeAfterMount(() => {
+            const subs = [
+                this._todoService.todos.subscribe((todos) => this.setState({ items: todos }))
+            ];
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
+        });
     }
 }
 exports.TodoList = TodoList;

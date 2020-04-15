@@ -8,8 +8,6 @@ export class TodoManager extends ComponentBase
 {
     public render(): JSX.Element
     {
-        console.log("Render in " + (this as Object).getTypeName());
-        
         return (
             <div>
                 <h3>TODO</h3>

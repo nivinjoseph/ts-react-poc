@@ -1,31 +1,22 @@
-import { Todo } from "../models/todo";
+import { Todo } from "../../models/todo";
 import { given } from "@nivinjoseph/n-defensive";
 import { Delay } from "@nivinjoseph/n-util";
 import { ApplicationException } from "@nivinjoseph/n-exception";
 import { BehaviorSubject, Observable } from "rxjs";
+import { TodoService } from "./todo-service";
 
 
-export class TodoService
+export class InMemoryTodoService implements TodoService
 {
-    private readonly _todosSubject: BehaviorSubject<Array<Todo>>
-
-    private static _instance: TodoService;
+    private readonly _todosSubject: BehaviorSubject<ReadonlyArray<Todo>>
 
 
     public get todos(): Observable<ReadonlyArray<Todo>> { return this._todosSubject; }
 
-    public static get instance(): TodoService
-    {
-        if (this._instance == null)
-            this._instance = new TodoService();
 
-        return this._instance;
-    }
-
-    
     private constructor()
     {
-        this._todosSubject = new BehaviorSubject<Array<Todo>>([]);
+        this._todosSubject = new BehaviorSubject<ReadonlyArray<Todo>>([]);
     }
 
 

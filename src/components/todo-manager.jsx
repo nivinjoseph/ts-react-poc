@@ -13,7 +13,6 @@ const todo_list_1 = require("./todo-list");
 const todo_input_1 = require("./todo-input");
 class TodoManager extends component_base_1.ComponentBase {
     render() {
-        console.log("Render in " + this.getTypeName());
         return (<div>
                 <h3>TODO</h3>
                 <todo_list_1.TodoList />

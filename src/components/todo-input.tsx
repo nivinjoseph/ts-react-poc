@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ComponentBase } from "../base/component-base";
-import { TodoService } from "../services/todo-service";
+import { TodoService } from "../services/todo/todo-service";
 import { Todo } from "../models/todo";
+import { Provider } from "../provider";
 
 
 type State = {
@@ -11,6 +12,9 @@ type State = {
 
 export class TodoInput extends ComponentBase<any, State>
 {
+    private readonly _todoService: TodoService;
+    
+    
     public constructor(props: any)
     {
         super(props);
@@ -20,14 +24,9 @@ export class TodoInput extends ComponentBase<any, State>
             todoText: ""
         };
         
-        this.executeAfterMount(() =>
-        {
-            const subs = [
-                TodoService.instance.todos.subscribe((todos) => this.setState({ todos }))
-            ];
-            
-            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
-        });
+        this._todoService = Provider.global.resolve("TodoService");
+        
+        this.initialize();
     }
     
     
@@ -43,15 +42,13 @@ export class TodoInput extends ComponentBase<any, State>
         if (this.state.todoText.length === 0)
             return;
 
-        await TodoService.instance.createTodo(this.state.todoText);
+        await this._todoService.createTodo(this.state.todoText);
         
         this.setState({ todoText: "" });
     }
     
     public render(): JSX.Element | null
     {
-        console.log("Render in " + (this as Object).getTypeName());
-        
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
@@ -69,5 +66,17 @@ export class TodoInput extends ComponentBase<any, State>
                 </form>
             </div>
         );
+    }
+    
+    private initialize(): void
+    {
+        this.executeAfterMount(() =>
+        {
+            const subs = [
+                this._todoService.todos.subscribe((todos) => this.setState({ todos }))
+            ];
+
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
+        });
     }
 }

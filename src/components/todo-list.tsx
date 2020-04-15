@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ComponentBase } from "../base/component-base";
-import { TodoService } from "../services/todo-service";
+import { TodoService } from "../services/todo/todo-service";
 import { Todo } from "../models/todo";
+import { Provider } from "../provider";
 
 
 type State = {
@@ -11,6 +12,9 @@ type State = {
 
 export class TodoList extends ComponentBase<any, State>
 {
+    private readonly _todoService: TodoService;
+    
+    
     public constructor(props: any)
     {
         super(props);
@@ -18,27 +22,20 @@ export class TodoList extends ComponentBase<any, State>
         this.state = {
             items: []
         };
+        
+        this._todoService = Provider.global.resolve("TodoService");
 
-        this.executeAfterMount(() =>
-        {
-            const subs = [
-                TodoService.instance.todos.subscribe((todos) => this.setState({ items: todos }))
-            ];
-            
-            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
-        });
+        this.initialize();
     }
     
     
     public async handleDelete(id: number): Promise<void>
     {
-        await TodoService.instance.deleteTodo(id);
+        await this._todoService.deleteTodo(id);
     }
     
     public render(): JSX.Element
     {
-        console.log("Render in " + (this as Object).getTypeName());
-        
         return (
             <ul>
                 {this.state.items.map(item => (
@@ -50,5 +47,17 @@ export class TodoList extends ComponentBase<any, State>
                     </li>))}
             </ul>
         );
+    }
+    
+    private initialize(): void
+    {
+        this.executeAfterMount(() =>
+        {
+            const subs = [
+                this._todoService.todos.subscribe((todos) => this.setState({ items: todos }))
+            ];
+
+            this.executeBeforeUnmount(() => subs.forEach(t => t.unsubscribe()));
+        });
     }
 }

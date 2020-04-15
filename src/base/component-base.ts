@@ -6,6 +6,7 @@ import { given } from "@nivinjoseph/n-defensive";
 export abstract class ComponentBase<P extends object = {}, S extends object = {}, SS = any> extends React.Component<P, S, SS>
 {
     private _afterMountFunc: (() => any) | null = null;
+    private _afterUpdateFunc: (() => any) | null = null;
     private _beforeUnmountFunc: (() => any) | null = null;
     
     
@@ -29,6 +30,12 @@ export abstract class ComponentBase<P extends object = {}, S extends object = {}
             this._afterMountFunc();
     }
     
+    public componentDidUpdate(): any
+    {
+        if (this._afterUpdateFunc)
+            this._afterUpdateFunc();
+    }
+    
     public componentWillUnmount(): any
     {
         if (this._beforeUnmountFunc)
@@ -39,6 +46,12 @@ export abstract class ComponentBase<P extends object = {}, S extends object = {}
     {
         given(func, "func").ensureHasValue().ensureIsFunction();
         this._afterMountFunc = func;
+    }
+    
+    protected executeAfterUpdate(func: () => any): void
+    {
+        given(func, "func").ensureHasValue().ensureIsFunction();
+        this._afterUpdateFunc = func;
     }
     
     protected executeBeforeUnmount(func: () => any): void

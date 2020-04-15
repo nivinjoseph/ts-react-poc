@@ -21,7 +21,6 @@ class App extends component_base_1.ComponentBase {
         config.bar = n_config_1.ConfigurationManager.getConfig("bar");
         config.baz = n_config_1.ConfigurationManager.getConfig("baz");
         console.dir(config);
-        // console.log(ConfigurationManager);
     }
     render() {
         return (<div>

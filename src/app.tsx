@@ -18,8 +18,6 @@ class App extends ComponentBase
         config.baz = ConfigurationManager.getConfig("baz");
 
         console.dir(config);
-
-        // console.log(ConfigurationManager);
     }
     
     public render(): JSX.Element

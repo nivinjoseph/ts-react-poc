@@ -75,6 +75,7 @@
     "@nivinjoseph/n-defensive": "^1.0.32",
     "@nivinjoseph/n-exception": "^1.0.19",
     "@nivinjoseph/n-ext": "^1.1.15",
+    "@nivinjoseph/n-ject": "^1.1.10",
     "@nivinjoseph/n-util": "^1.0.38",
     "bulma": "^0.8.2",
     "feather-icons": "^4.28.0",
