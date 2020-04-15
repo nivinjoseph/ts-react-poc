@@ -11,17 +11,8 @@ const React = __importStar(require("react"));
 const hello_1 = require("./components/hello");
 const root_1 = require("react-hot-loader/root");
 const todo_manager_1 = require("./components/todo-manager");
-const n_config_1 = require("@nivinjoseph/n-config");
 const component_base_1 = require("./base/component-base");
 class App extends component_base_1.ComponentBase {
-    constructor(props) {
-        super(props);
-        const config = {};
-        config.foo = n_config_1.ConfigurationManager.getConfig("foo");
-        config.bar = n_config_1.ConfigurationManager.getConfig("bar");
-        config.baz = n_config_1.ConfigurationManager.getConfig("baz");
-        console.dir(config);
-    }
     render() {
         return (<div>
                 <hello_1.Hello compiler="TypeScript" framework="React"/>

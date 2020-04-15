@@ -18,7 +18,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const component_base_1 = require("../base/component-base");
-const provider_1 = require("../provider");
+const provider_1 = require("../providers/provider");
 class TodoInput extends component_base_1.ComponentBase {
     constructor(props) {
         super(props);

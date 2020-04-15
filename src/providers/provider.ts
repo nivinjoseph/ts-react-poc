@@ -1,17 +1,6 @@
-import { ServiceLocator, ComponentInstaller, Registry, Container } from "@nivinjoseph/n-ject";
+import { ServiceLocator, Container } from "@nivinjoseph/n-ject";
 import { given } from "@nivinjoseph/n-defensive";
-import { InMemoryTodoService } from "./services/todo/in-memory-todo-service";
-
-
-class Installer implements ComponentInstaller
-{
-    public install(registry: Registry): void
-    {
-        given(registry, "registry").ensureHasValue().ensureIsObject();
-
-        registry.registerSingleton("TodoService", InMemoryTodoService);
-    }
-}
+import { DefaultInstaller } from "./default-installer";
 
 
 export class Provider
@@ -21,6 +10,11 @@ export class Provider
     
     public static get global(): ServiceLocator { return this._global; }
     
+    /**
+     * @static
+     */
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    private constructor() { }
     
     public static initialize(): void
     {
@@ -28,7 +22,7 @@ export class Provider
         
         const container = new Container();
         container
-            .install(new Installer())
+            .install(new DefaultInstaller())
             .bootstrap();
         
         this._global = container;

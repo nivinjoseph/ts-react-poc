@@ -10,7 +10,7 @@ export abstract class ComponentBase<P extends object = {}, S extends object = {}
     private _beforeUnmountFunc: (() => any) | null = null;
     
     
-    protected constructor(props: P)
+    public constructor(props: P)
     {
         super(props);
         

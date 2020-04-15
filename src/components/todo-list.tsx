@@ -2,7 +2,7 @@ import * as React from "react";
 import { ComponentBase } from "../base/component-base";
 import { TodoService } from "../services/todo/todo-service";
 import { Todo } from "../models/todo";
-import { Provider } from "../provider";
+import { Provider } from "../providers/provider";
 
 
 type State = {
